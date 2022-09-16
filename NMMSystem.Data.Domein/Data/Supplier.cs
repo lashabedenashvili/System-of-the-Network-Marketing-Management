@@ -18,9 +18,9 @@ namespace NMMSystem.Data.Domein
         [Required]
         public Gender Gender { get; set; }
         public string Picture { get; set; }
-        List<PrivateInformation> PrivateInfromations { get; set;}=new List<PrivateInformation>();
-        List<ContactInformation> ContactInfromations { get; set;}=new List<ContactInformation>();
-        List<AddressInfo> AddressInfromations { get; set;}=new List<AddressInfo>();
+        public List<PrivateInformation> PrivateInfromations { get; set; } = new();
+        public List<ContactInformation> ContactInfromations { get; set; } = new();
+        public List<AddressInfo> AddressInfromations { get; set; } = new();
 
     }
 }

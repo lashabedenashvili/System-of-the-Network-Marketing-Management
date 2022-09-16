@@ -5,12 +5,14 @@ using System.Text;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
-namespace NMMSystem.Data.Domein.Enum
+namespace NMMSystem.Data.Domein.Data.Enum
 {
     [JsonConverter(typeof(JsonStringEnumConverter))]
-    public enum DocumentType
+    public enum ContactInformationType
     {
-        Passport=1,
-        IdCard=2,
+        Phone=1,
+        Mobile=2,
+        Email=3,
+        Fax=4,
     }
 }

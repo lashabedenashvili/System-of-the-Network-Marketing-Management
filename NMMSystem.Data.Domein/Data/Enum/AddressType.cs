@@ -5,12 +5,12 @@ using System.Text;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
-namespace NMMSystem.Data.Domein.Enum
+namespace NMMSystem.Data.Domein.Data.Enum
 {
     [JsonConverter(typeof(JsonStringEnumConverter))]
-    public enum DocumentType
+    public enum AddressType
     {
-        Passport=1,
-        IdCard=2,
+        ActualAddress=1,
+        RegistrationAddress=2,
     }
 }

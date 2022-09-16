@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NMMSystem.Data.Domein.Data.Enum;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -10,8 +11,8 @@ namespace NMMSystem.Data.Domein
     public class AddressInfo
     {
         public int Id { get; set; }
-        public string ActualAddress { get; set; }
-        public string RegistrationAddress { get; set; }
+        [Required]
+        public AddressType AddressType { get; set; }    
         [Required]
         [MaxLength(100)]
         public string Address { get; set; }

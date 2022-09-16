@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NMMSystem.Data.Domein.Data.Enum;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -10,10 +11,9 @@ namespace NMMSystem.Data.Domein
     public class ContactInformation
     {
         public int Id { get; set; }
-        public string PhoneNumber { get; set; }
-        public string MobileNumber { get; set; }
-        public string Email { get; set; }
-        public string Fax { get; set; }
+     
+        [Required]  
+        public ContactInformationType ContactInformationType { get; set; }
         [Required]
         [MaxLength(100)]
         public string ContactInfo { get; set; }
