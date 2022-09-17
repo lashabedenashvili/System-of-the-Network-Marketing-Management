@@ -5,6 +5,8 @@ using NMMSystem.Aplication.Service.ContactInfromationServ;
 using NMMSystem.Aplication.Service.PrivateInfromationServ;
 using NMMSystem.Data.Domein;
 using NNMSystem.Infrastructure.Dto;
+using NNMSystem.Infrastructure.Dto.RegistrationSupplierDto;
+using NNMSystem.Infrastructure.Dto.UpdateSupplier;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -59,6 +61,43 @@ namespace NMMSystem.Aplication.Service.SupplierServ
             await _privateInfromationService.AddPrivateInformation(request.PrivateInformation, _supplier);
             await _addressInfoService.AddAddressInfo(request.AddressInfo, _supplier);
             await _contactInformationService.AddContactInformation(request.ContactInformation, _supplier);
+            await _context.SaveChangesAsync();
+            return response;
+
+        }
+
+        public async Task<ServiceResponce<string>> UpdateSupplier(UpdateSupplierDto request)
+        {
+            var response = new ServiceResponce<string>();
+            var supplierExist = await SupplierExist(request);
+            if (!supplierExist.Success)
+            {
+                response.Success = false;
+                response.Message = supplierExist.Message;
+                return response;
+            }
+            else
+            {
+                await UpdateSupplierById(request);
+                await _privateInfromationService.UpdatePrivateInformation(request);
+                await _contactInformationService.UpdateContactInformation(request);
+                await _addressInfoService.UpdateAddressInfo(request);
+                response.Success = true;
+            }
+            return response;
+        }
+
+
+
+        private async Task<ServiceResponce<int>> UpdateSupplierById(UpdateSupplierDto request)
+        {
+            var response = new ServiceResponce<int>();
+            var supplierInfoFromDb = _context.Supplier
+                .FirstOrDefaultAsync(x => x.Id == request.SupplieDto.SupplierId);
+            var updateSupplier = _mapper.Map<SupplieDto, Supplier>
+                (request.SupplieDto, await supplierInfoFromDb);
+            _context.Supplier.Update(updateSupplier);
+            await _context.SaveChangesAsync();
             return response;
 
         }
@@ -68,9 +107,9 @@ namespace NMMSystem.Aplication.Service.SupplierServ
             var responce = new ServiceResponce<string>();
             var addsupplier = _mapper.Map<Supplier>(request.Supplier);
             await _context.Supplier.AddAsync(addsupplier);
-            _context.SaveChanges();
             return responce;
         }
+
         private async Task<ServiceResponce<bool>> DeleteSupplierById(int supplierId)
         {
             var responce = new ServiceResponce<bool>();
@@ -82,11 +121,28 @@ namespace NMMSystem.Aplication.Service.SupplierServ
                 return responce;
             }
             _context.Supplier.Remove(getSupplierById);
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
             responce.Success = true;
             responce.Message = "Supplier is already deleted";
             return responce;
         }
+        private async Task<ServiceResponce<bool>> SupplierExist(UpdateSupplierDto request)
+        {
+            var responce = new ServiceResponce<bool>();
+            var supplier = await _context.Supplier.FirstOrDefaultAsync(x => x.Id == request.SupplieDto.SupplierId);
+            if (supplier == null)
+            {
+                responce.Success = false;
+                responce.Message = "Supplier does not exist.";
+                return responce;
+            }
+            else
+            {
+                responce.Success = true;
+            }
+            return responce;
+        }
+
 
     }
 }

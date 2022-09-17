@@ -13,6 +13,8 @@ namespace NMMSystem.Data.Domein
         DbSet<ContactInformation> ContactInformation { get; set; }
         DbSet<PrivateInformation> PrivateInformation { get; set; }
         DbSet<Supplier> Supplier { get; set; }
+        Task<int> SaveChangesAsync(CancellationToken cancellationToken = default(CancellationToken));
+
         int SaveChanges();
 
 

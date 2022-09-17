@@ -21,7 +21,7 @@ builder.Services.AddScoped<ISupplierService, SupplierService>();
 builder.Services.AddScoped<IPrivateInfromationService, PrivateInfromationService>();
 builder.Services.AddScoped<IAddressInfoService, AddressInfoService>();
 
-builder.Services.AddAutoMapper(typeof(AutoMapperProfile).Assembly);
+builder.Services.AddAutoMapper(typeof(RegistrationAutoMapperProfile).Assembly);
 builder.Services.AddSwaggerGen();
 
 var app = builder.Build();

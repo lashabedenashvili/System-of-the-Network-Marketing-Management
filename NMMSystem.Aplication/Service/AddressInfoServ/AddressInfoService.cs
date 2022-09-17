@@ -2,6 +2,8 @@
 using Microsoft.EntityFrameworkCore;
 using NMMSystem.Data.Domein;
 using NNMSystem.Infrastructure.Dto;
+using NNMSystem.Infrastructure.Dto.UpdateRegistration;
+using NNMSystem.Infrastructure.Dto.UpdateSupplier;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -28,7 +30,7 @@ namespace NMMSystem.Aplication.Service.AddressInfoServ
             var addressInfo = _mapper.Map<AddressInfo>(request);
             addressInfo.Supplier = supplier;
             await _context.AddressInfo.AddAsync(addressInfo);
-            _context.SaveChanges();
+ 
             return responce;
 
 
@@ -51,6 +53,18 @@ namespace NMMSystem.Aplication.Service.AddressInfoServ
                 responce.Message = "Supplier is already deleted";
                 return responce;
             
+        }
+
+        public async Task<ServiceResponce<string>> UpdateAddressInfo(UpdateSupplierDto request)
+        {
+            var response=new ServiceResponce<string>();
+            var addressInfoFromDb = _context.AddressInfo
+                .FirstOrDefaultAsync(x => x.SupplierId == request.SupplieDto.SupplierId);
+            var addressInfo = _mapper.Map<UpdateAddressInfoDto, AddressInfo>
+                (request.UpdateAddressInfoDto, await addressInfoFromDb);
+            _context.AddressInfo.Update(addressInfo);
+            await _context.SaveChangesAsync();
+            return response;
         }
     }
 }

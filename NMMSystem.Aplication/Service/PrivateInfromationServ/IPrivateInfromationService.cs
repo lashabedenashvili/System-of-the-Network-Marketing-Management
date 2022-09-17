@@ -1,5 +1,6 @@
 ﻿using NMMSystem.Data.Domein;
 using NNMSystem.Infrastructure.Dto;
+using NNMSystem.Infrastructure.Dto.UpdateSupplier;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,5 +13,6 @@ namespace NMMSystem.Aplication.Service.PrivateInfromationServ
     {
         Task<ServiceResponce<string>>AddPrivateInformation(PrivateInformationDto request,Supplier supplier);
         Task<ServiceResponce<string>> DeletePrivateInformationBySupplierId(int supplierId);
+        Task<ServiceResponce<string>> UpdatePrivateInformation(UpdateSupplierDto request);
     }
 }

@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using NMMSystem.Data.Domein;
 using NNMSystem.Infrastructure.Dto;
+using NNMSystem.Infrastructure.Dto.UpdateSupplier;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -26,7 +27,7 @@ namespace NMMSystem.Aplication.Service.ContactInfromationServ
             var contactInformation=_mapper.Map<ContactInformation>(request);
             contactInformation.Supplier = supplier;
             await _context.ContactInformation.AddAsync(contactInformation);
-            _context.SaveChanges();
+ 
             return response;
         }
 
@@ -41,10 +42,22 @@ namespace NMMSystem.Aplication.Service.ContactInfromationServ
                 return responce;
             }
             _context.ContactInformation.Remove(getSupplierById);
-            _context.SaveChanges();
+
             responce.Success = true;           
             return responce;
 
+        }
+
+        public async Task<ServiceResponce<string>> UpdateContactInformation(UpdateSupplierDto request)
+        {
+            var response = new ServiceResponce<string>();
+            var contactInfoFromDb = _context.ContactInformation
+                .FirstOrDefaultAsync(x => x.SupplierId == request.SupplieDto.SupplierId);
+            var contactInformation = _mapper.Map<UpdateContactInformationDto, ContactInformation>
+                (request.UpdateContactInformationDto, await contactInfoFromDb);
+            _context.ContactInformation.Update(contactInformation);
+            await _context.SaveChangesAsync();
+            return response;
         }
     }
 }

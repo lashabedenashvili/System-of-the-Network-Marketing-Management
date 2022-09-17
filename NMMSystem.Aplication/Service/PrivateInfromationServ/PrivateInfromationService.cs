@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using NMMSystem.Data.Domein;
 using NNMSystem.Infrastructure.Dto;
+using NNMSystem.Infrastructure.Dto.UpdateSupplier;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -26,7 +27,7 @@ namespace NMMSystem.Aplication.Service.PrivateInfromationServ
             var privateInfo = _mapper.Map<PrivateInformation>(request);
             privateInfo.Supplier = supplier;
             await _context.PrivateInformation.AddAsync(privateInfo);
-            _context.SaveChanges();
+          
             return responce;
         }
 
@@ -43,6 +44,19 @@ namespace NMMSystem.Aplication.Service.PrivateInfromationServ
             _context.SaveChanges();
             responce.Success = true;
             return responce;
+        }
+
+        public async Task<ServiceResponce<string>> UpdatePrivateInformation(UpdateSupplierDto request)
+        {
+
+            var response=new ServiceResponce<string>();
+            var privateInfoFromDB = _context.PrivateInformation
+                .FirstOrDefault(x=>x.SupplierId==request.SupplieDto.SupplierId);
+            var privateInformation = _mapper.Map<UpdatePrivateInformationDto, PrivateInformation>
+                (request.UpdatePrivateInformationDto, privateInfoFromDB);
+            _context.PrivateInformation.Update(privateInformation);
+            await _context.SaveChangesAsync();
+            return response;
         }
     }
 }
