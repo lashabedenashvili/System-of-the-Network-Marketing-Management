@@ -13,6 +13,7 @@ namespace NMMSystem.Aplication.Service.AddressInfoServ
     {
         Task<ServiceResponce<string>> AddAddressInfo(AddressInfoDto request, Supplier supplier);
         Task<ServiceResponce<string>> DeleteAddressBySupplierId(int supplierId);
-        Task<ServiceResponce<string>> UpdateAddressInfo(UpdateSupplierDto request)
+        Task<ServiceResponce<string>> UpdateAddressInfo(UpdateSupplierDto request);
+        
     }
 }

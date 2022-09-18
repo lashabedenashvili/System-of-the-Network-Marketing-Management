@@ -5,6 +5,7 @@ using NMMSystem.Aplication.Service.ContactInfromationServ;
 using NMMSystem.Aplication.Service.PrivateInfromationServ;
 using NMMSystem.Data.Domein;
 using NNMSystem.Infrastructure.Dto;
+using NNMSystem.Infrastructure.Dto.GetAllSupplier;
 using NNMSystem.Infrastructure.Dto.RegistrationSupplierDto;
 using NNMSystem.Infrastructure.Dto.UpdateSupplier;
 using System;
@@ -143,6 +144,20 @@ namespace NMMSystem.Aplication.Service.SupplierServ
             return responce;
         }
 
+        public async Task<ServiceResponce<List<GetAllSuplierDto>>> GetSupplier()
+        {
+            var response=new ServiceResponce<List<GetAllSuplierDto>>();
 
+            var suppliers= await _context.Supplier.Include(e => e.ContactInfromations)
+                                            .Include(e => e.PrivateInfromations)
+                                            .Include(e => e.AddressInfromations)
+                                            .ToListAsync();
+
+            response.Data = _mapper.Map<List<GetAllSuplierDto>>(suppliers);
+
+
+            return response;
+        }
+        
     }
 }

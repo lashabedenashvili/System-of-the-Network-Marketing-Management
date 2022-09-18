@@ -1,7 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using NMMSystem.Aplication.Service;
 using NMMSystem.Aplication.Service.SupplierServ;
+using NMMSystem.Data.Domein;
 using NNMSystem.Infrastructure.Dto;
+using NNMSystem.Infrastructure.Dto.GetAllSupplier;
 using NNMSystem.Infrastructure.Dto.RegistrationSupplierDto;
 using NNMSystem.Infrastructure.Dto.UpdateSupplier;
 
@@ -40,6 +42,13 @@ namespace NMMSystem.Api.Controllers.SupplierService
             return Ok(await _supplierService.UpdateSupplier(request));
         }
        
+        [HttpGet("GetAllSuplier")]
+        public async Task<ActionResult<List<GetAllSuplierDto>>> GetSupplier()
+        {
+            return Ok(await _supplierService.GetSupplier());
+        }
+
+
 
     }
 }

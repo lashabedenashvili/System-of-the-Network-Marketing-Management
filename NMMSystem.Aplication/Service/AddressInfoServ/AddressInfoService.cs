@@ -55,6 +55,8 @@ namespace NMMSystem.Aplication.Service.AddressInfoServ
             
         }
 
+       
+
         public async Task<ServiceResponce<string>> UpdateAddressInfo(UpdateSupplierDto request)
         {
             var response=new ServiceResponce<string>();

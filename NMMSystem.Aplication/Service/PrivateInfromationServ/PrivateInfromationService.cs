@@ -46,6 +46,8 @@ namespace NMMSystem.Aplication.Service.PrivateInfromationServ
             return responce;
         }
 
+       
+
         public async Task<ServiceResponce<string>> UpdatePrivateInformation(UpdateSupplierDto request)
         {
 

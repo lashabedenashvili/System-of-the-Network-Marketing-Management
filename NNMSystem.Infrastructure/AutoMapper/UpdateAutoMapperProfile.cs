@@ -23,6 +23,8 @@ namespace NNMSystem.Infrastructure.AutoMapper
             CreateMap<UpdatePrivateInformationDto,PrivateInformation >()
                 .ForAllMembers(c => c.Condition((src, dest, srcMember) => srcMember != null));
 
+            CreateMap<Supplier, SupplieDto>();
+
         }
     }
 }
