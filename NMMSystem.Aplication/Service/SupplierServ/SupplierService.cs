@@ -57,7 +57,9 @@ namespace NMMSystem.Aplication.Service.SupplierServ
         {
             var response = new ServiceResponce<string>();
             var _supplier = _mapper.Map<Supplier>(request.Supplier);
-            await AddSupplier(request);
+            await AddSupplier(request);          
+
+
             // ეს შვება ყველაფერს, ეს გაეშვება თუარა საფლაიერის ბაზაში მეორეჯერ ვარდება მონაცემი
             await _privateInfromationService.AddPrivateInformation(request.PrivateInformation, _supplier);
             await _addressInfoService.AddAddressInfo(request.AddressInfo, _supplier);
@@ -66,7 +68,6 @@ namespace NMMSystem.Aplication.Service.SupplierServ
             return response;
 
         }
-
         public async Task<ServiceResponce<string>> UpdateSupplier(UpdateSupplierDto request)
         {
             var response = new ServiceResponce<string>();
@@ -87,9 +88,6 @@ namespace NMMSystem.Aplication.Service.SupplierServ
             }
             return response;
         }
-
-
-
         private async Task<ServiceResponce<int>> UpdateSupplierById(UpdateSupplierDto request)
         {
             var response = new ServiceResponce<int>();
@@ -102,7 +100,6 @@ namespace NMMSystem.Aplication.Service.SupplierServ
             return response;
 
         }
-
         private async Task<ServiceResponce<string>> AddSupplier(SupplierRegistrationDto request)
         {
             var responce = new ServiceResponce<string>();
@@ -110,7 +107,6 @@ namespace NMMSystem.Aplication.Service.SupplierServ
             await _context.Supplier.AddAsync(addsupplier);
             return responce;
         }
-
         private async Task<ServiceResponce<bool>> DeleteSupplierById(int supplierId)
         {
             var responce = new ServiceResponce<bool>();
@@ -143,7 +139,6 @@ namespace NMMSystem.Aplication.Service.SupplierServ
             }
             return responce;
         }
-
         public async Task<ServiceResponce<List<GetAllSuplierDto>>> GetSupplier()
         {
             var response=new ServiceResponce<List<GetAllSuplierDto>>();

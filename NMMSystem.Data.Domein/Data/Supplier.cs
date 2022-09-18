@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using NMMSystem.Data.Domein.Data;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace NMMSystem.Data.Domein
@@ -21,6 +22,7 @@ namespace NMMSystem.Data.Domein
         public List<PrivateInformation> PrivateInfromations { get; set; } = new();
         public List<ContactInformation> ContactInfromations { get; set; } = new();
         public List<AddressInfo> AddressInfromations { get; set; } = new();
+        public List<SupplierSale> SupplierSale { get; set; } = new();
 
     }
 }
