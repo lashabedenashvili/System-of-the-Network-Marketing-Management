@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using NMMSystem.Data.Domein.Data;
 using NNMSystem.Infrastructure.Dto.AddProduct;
+using NNMSystem.Infrastructure.Dto.SupplierSale;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,7 +14,17 @@ namespace NNMSystem.Infrastructure.AutoMapper
     {
         public ProductAutoMapperProfile()
         {
+           
+            CreateMap<SupplierSaleDto, SupplierSale>();
+            CreateMap<Product, AddProductDto>();
+
+            CreateMap<SupplierSale, GetSupplierSalebysupplierDto>()
+               .ForMember(e => e.ProductDto, opt => opt.MapFrom(s => s.Product));
+
             CreateMap<AddProductDto, Product>();
+            CreateMap<Product, AddProductDto>();
+
+
         }
     }
 }
