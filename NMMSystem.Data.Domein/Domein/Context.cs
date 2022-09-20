@@ -14,7 +14,7 @@ namespace NMMSystem.Data.Domein
         public DbSet<ContactInformation> ContactInformation { get; set; }
         public DbSet<PrivateInformation> PrivateInformation { get; set; }
         public DbSet<Supplier> Supplier { get; set; }
-       // public DbSet<SupplierRecomendators> SupplierRecomendators { get ; set ; }
+        public DbSet<SupplierRecomendators> SupplierRecomendators { get ; set ; }
         public DbSet<SupplierSale> SupplierSale { get ; set ; }
         public DbSet<Product> Product { get ; set ; }
 
@@ -22,5 +22,16 @@ namespace NMMSystem.Data.Domein
         {
 
         }
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {      
+
+            modelBuilder.Entity<SupplierRecomendators>()
+                .HasOne(e => e.RecommendedSupplier)
+                .WithMany()
+                .HasForeignKey(e => e.RecommendedSupplierId)
+                .OnDelete(DeleteBehavior.NoAction);
+
+        }
+
     }
 }

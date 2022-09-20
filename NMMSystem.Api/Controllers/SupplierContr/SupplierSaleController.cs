@@ -36,7 +36,7 @@ namespace NMMSystem.Api.Controllers
         [HttpPost("FilterSale")]
         public async Task<ActionResult<ServiceResponce<List<GetSupplierSalebysupplierDto>>>> FilterSale(FilterDto filter)
         {
-            return Ok(await _productService.FilterSalle(filter));
+            return Ok(await _productService.FilterSale(filter));
         }
     }
 }

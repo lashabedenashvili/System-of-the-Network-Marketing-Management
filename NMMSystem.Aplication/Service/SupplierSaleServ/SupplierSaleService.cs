@@ -77,7 +77,7 @@ namespace NMMSystem.Aplication.Service.SaleServ
             return responce;
         }
 
-        public async Task<ServiceResponce<List<GetSupplierSalebysupplierDto>>> FilterSalle(FilterDto filter)
+        public async Task<ServiceResponce<List<GetSupplierSalebysupplierDto>>> FilterSale(FilterDto filter)
         {
             var response = new ServiceResponce<List<GetSupplierSalebysupplierDto>>();
 

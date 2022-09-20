@@ -4,6 +4,7 @@ using NMMSystem.Aplication.Service.ContactInfromationServ;
 using NMMSystem.Aplication.Service.PrivateInfromationServ;
 using NMMSystem.Aplication.Service.ProductServ;
 using NMMSystem.Aplication.Service.SaleServ;
+using NMMSystem.Aplication.Service.SupplierRecomendatorsServ;
 using NMMSystem.Aplication.Service.SupplierServ;
 using NMMSystem.Data.Domein;
 using NNMSystem.Infrastructure.AutoMapper;
@@ -23,6 +24,7 @@ builder.Services.AddScoped<ISupplierService, SupplierService>();
 builder.Services.AddScoped<IPrivateInfromationService, PrivateInfromationService>();
 builder.Services.AddScoped<IAddressInfoService, AddressInfoService>();
 builder.Services.AddScoped<ISupplierSaleService, SupplierSaleService>();
+builder.Services.AddScoped<ISupplierRecomendatorsService, SupplierRecomendatorsService>();
 
 builder.Services.AddAutoMapper(typeof(RegistrationAutoMapperProfile).Assembly);
 

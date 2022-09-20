@@ -3,7 +3,9 @@ using Microsoft.EntityFrameworkCore;
 using NMMSystem.Aplication.Service.AddressInfoServ;
 using NMMSystem.Aplication.Service.ContactInfromationServ;
 using NMMSystem.Aplication.Service.PrivateInfromationServ;
+using NMMSystem.Aplication.Service.SupplierRecomendatorsServ;
 using NMMSystem.Data.Domein;
+using NMMSystem.Data.Domein.Data;
 using NNMSystem.Infrastructure.Dto;
 using NNMSystem.Infrastructure.Dto.GetAllSupplier;
 using NNMSystem.Infrastructure.Dto.RegistrationSupplierDto;
@@ -23,15 +25,18 @@ namespace NMMSystem.Aplication.Service.SupplierServ
         private readonly IContactInformationService _contactInformationService;
         private readonly IAddressInfoService _addressInfoService;
         private readonly IPrivateInfromationService _privateInfromationService;
+        private readonly ISupplierRecomendatorsService _supplierRecomendatorsService;
 
         public SupplierService(IContext context, IMapper mapper, IContactInformationService contactInformationService
-            , IAddressInfoService addressInfoService, IPrivateInfromationService privateInfromationService)
+            , IAddressInfoService addressInfoService, IPrivateInfromationService privateInfromationService,
+            ISupplierRecomendatorsService SupplierRecomendatorsService)
         {
             _context = context;
             _mapper = mapper;
             _contactInformationService = contactInformationService;
             _addressInfoService = addressInfoService;
             _privateInfromationService = privateInfromationService;
+            _supplierRecomendatorsService = SupplierRecomendatorsService;
         }
 
         public async Task<ServiceResponce<string>> DeleteSupplier(int supplierId)
@@ -57,13 +62,25 @@ namespace NMMSystem.Aplication.Service.SupplierServ
         {
             var response = new ServiceResponce<string>();
             var _supplier = _mapper.Map<Supplier>(request.Supplier);
-            await AddSupplier(request);          
+            await _context.Supplier.AddAsync(_supplier);
 
+           
 
             // ეს შვება ყველაფერს, ეს გაეშვება თუარა საფლაიერის ბაზაში მეორეჯერ ვარდება მონაცემი
             await _privateInfromationService.AddPrivateInformation(request.PrivateInformation, _supplier);
             await _addressInfoService.AddAddressInfo(request.AddressInfo, _supplier);
-            await _contactInformationService.AddContactInformation(request.ContactInformation, _supplier);
+            await _contactInformationService.AddContactInformation(request.ContactInformation, _supplier);          
+            
+            var supplierLimit= await _supplierRecomendatorsService.AddSupplierRecomendators(request);
+            if (!supplierLimit.Success)
+            {
+                response.Success = false;
+                response.Message = supplierLimit.Message;
+                return response;
+            }
+
+
+
             await _context.SaveChangesAsync();
             return response;
 

@@ -24,5 +24,12 @@ namespace NMMSystem.Data.Domein
         public List<AddressInfo> AddressInfromations { get; set; } = new();
         public List<SupplierSale> SupplierSale { get; set; } = new();
 
+
+        [ForeignKey("RecommenderSupplierId")]
+        public virtual List<SupplierRecomendators> RecommendedSupplier { get; set; } = new();
+
+
+
+
     }
 }

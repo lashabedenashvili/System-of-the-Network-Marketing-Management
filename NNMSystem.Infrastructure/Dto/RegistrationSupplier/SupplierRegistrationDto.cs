@@ -13,7 +13,7 @@ namespace NNMSystem.Infrastructure.Dto.RegistrationSupplierDto
         public ContactInformationDto ContactInformation { get; set; }
         public PrivateInformationDto PrivateInformation { get; set; }
         public AddressInfoDto AddressInfo { get; set; }
-        //public int? Recomendator { get; set; }
+        public int? Recomendator { get; set; }
     }
 
 }

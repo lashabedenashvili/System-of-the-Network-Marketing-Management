@@ -13,6 +13,6 @@ namespace NMMSystem.Aplication.Service.ProductServ
          Task<ServiceResponce<string>> AddProducts(AddProductDto request);
         Task<ServiceResponce<string>> AddSupplierSale(SupplierSaleDto request);
         Task<ServiceResponce<List<GetSupplierSalebysupplierDto>>> GetSypplierSaleBySupplier(int supplierId);
-        Task<ServiceResponce<List<GetSupplierSalebysupplierDto>>> FilterSalle(FilterDto filter);
+        Task<ServiceResponce<List<GetSupplierSalebysupplierDto>>> FilterSale(FilterDto filter);
     }
 }
