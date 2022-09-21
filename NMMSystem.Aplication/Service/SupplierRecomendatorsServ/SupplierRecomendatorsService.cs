@@ -26,8 +26,8 @@ namespace NMMSystem.Aplication.Service.SupplierRecomendatorsServ
         public async Task<ServiceResponce<string>> AddSupplierRecomendators(SupplierRegistrationDto request)
         {
             var response = new ServiceResponce<string>();
-            var limitRecomender=await RecommenderLimitation(request.Recomendator.Value);
-          
+            var limitRecomender = await RecommenderLimitation(request.Recomendator.Value);
+
             var _supplier = _mapper.Map<Supplier>(request.Supplier);
             if (!limitRecomender.Success)
             {
@@ -63,7 +63,7 @@ namespace NMMSystem.Aplication.Service.SupplierRecomendatorsServ
             var supplierLimit = await _context.SupplierRecomendators
                 .CountAsync(x => x.RecommenderSupplierId == supplierId);
 
-            if (supplierLimit>3)
+            if (supplierLimit > 3)
             {
                 response.Success = false;
                 response.Message = "The number of recommendations has been exhausted";
@@ -72,6 +72,50 @@ namespace NMMSystem.Aplication.Service.SupplierRecomendatorsServ
             response.Success = true;
             return response;
 
+        }
+
+        public async Task<ServiceResponce<List<int>>> HierarchyControl(int RecomenderSupplierId,int level = 5)
+        {
+            var response = new ServiceResponce<List<int>>();
+            List<int> allHirarcky = new List<int>();            
+            var supplierFirsRank = await _context.SupplierRecomendators
+                .Where(x => x.RecommenderSupplierId.Equals(RecomenderSupplierId))
+                .Select(x => x.RecommendedSupplierId).ToListAsync();
+
+            var CheckUnderRanks = supplierFirsRank.Count > 0;
+            allHirarcky.AddRange(supplierFirsRank);
+
+            while (CheckUnderRanks)
+            {
+                int levelCheck = 1;
+                for (int i = 0; i < allHirarcky.Count ; i++)
+                {
+                    if (levelCheck == level)
+                        break;
+
+                    var nextRankRecomender = allHirarcky[i];
+
+                    var supplierNextRank = await _context.SupplierRecomendators
+                    .Where(x => x.RecommenderSupplierId.Equals(nextRankRecomender))
+                    .Select(x => x.RecommendedSupplierId).ToListAsync();
+
+                    if (supplierNextRank.Count > 0)
+                    {
+                        levelCheck++;
+                        allHirarcky.AddRange(supplierNextRank);
+                    }
+                        
+                   
+                }
+
+                CheckUnderRanks = false;
+            }
+            response.Data = allHirarcky;
+            response.Success = true;
+
+
+
+            return response;
         }
     }
 }

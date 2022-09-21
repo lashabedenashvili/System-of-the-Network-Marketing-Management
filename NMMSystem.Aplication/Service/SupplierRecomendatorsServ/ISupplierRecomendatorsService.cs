@@ -10,6 +10,8 @@ namespace NMMSystem.Aplication.Service.SupplierRecomendatorsServ
     public interface ISupplierRecomendatorsService
     {
         Task<ServiceResponce<string>> AddSupplierRecomendators(SupplierRegistrationDto request);
-        
+        Task<ServiceResponce<List<int>>> HierarchyControl(int RecomenderSupplierId,int level = 5);
+
+
     }
 }
