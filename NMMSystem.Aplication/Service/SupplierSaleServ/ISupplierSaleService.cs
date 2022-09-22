@@ -14,5 +14,6 @@ namespace NMMSystem.Aplication.Service.ProductServ
         Task<ServiceResponce<string>> AddSupplierSale(SupplierSaleDto request);
         Task<ServiceResponce<List<GetSupplierSalebysupplierDto>>> GetSypplierSaleBySupplier(int supplierId);
         Task<ServiceResponce<List<GetSupplierSalebysupplierDto>>> FilterSale(FilterDto filter);
+        Task<ServiceResponce<decimal>> SupplierBonusSystem(int supplierId);
     }
 }

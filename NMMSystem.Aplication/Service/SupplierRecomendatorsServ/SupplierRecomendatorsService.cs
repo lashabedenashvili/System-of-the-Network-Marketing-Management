@@ -4,6 +4,7 @@ using NMMSystem.Data.Domein;
 using NMMSystem.Data.Domein.Data;
 using NNMSystem.Infrastructure.Dto.RegistrationSupplierDto;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -59,6 +60,8 @@ namespace NMMSystem.Aplication.Service.SupplierRecomendatorsServ
         }
         public async Task<ServiceResponce<string>> RecommenderLimitation(int supplierId)
         {
+            int level = 5;
+           
             var response = new ServiceResponce<string>();
             var supplierLimit = await _context.SupplierRecomendators
                 .CountAsync(x => x.RecommenderSupplierId == supplierId);
@@ -69,6 +72,23 @@ namespace NMMSystem.Aplication.Service.SupplierRecomendatorsServ
                 response.Message = "The number of recommendations has been exhausted";
                 return response;
             }
+            
+            var hierarchy = await HierarchyControl(supplierId, level);
+            int countHierarchy = 0;
+
+            for (int i = 0; i < hierarchy.Data.Count; i++)
+            {
+                countHierarchy++;
+
+
+                if (countHierarchy > 121)
+                {
+                    response.Success=false;
+                    response.Message = "The number of recommendations is full (121 person)";
+                    return response;
+                }
+
+            }
             response.Success = true;
             return response;
 
@@ -76,6 +96,7 @@ namespace NMMSystem.Aplication.Service.SupplierRecomendatorsServ
 
         public async Task<ServiceResponce<List<int>>> HierarchyControl(int RecomenderSupplierId,int level = 5)
         {
+
             var response = new ServiceResponce<List<int>>();
             List<int> allHirarcky = new List<int>();            
             var supplierFirsRank = await _context.SupplierRecomendators
@@ -103,8 +124,7 @@ namespace NMMSystem.Aplication.Service.SupplierRecomendatorsServ
                     {
                         levelCheck++;
                         allHirarcky.AddRange(supplierNextRank);
-                    }
-                        
+                    }                        
                    
                 }
 
@@ -117,5 +137,7 @@ namespace NMMSystem.Aplication.Service.SupplierRecomendatorsServ
 
             return response;
         }
+
+        
     }
 }
