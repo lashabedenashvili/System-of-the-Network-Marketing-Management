@@ -29,7 +29,7 @@ namespace NMMSystem.Aplication.Service.SupplierRecomendatorsServ
             var response = new ServiceResponce<string>();
             var limitRecomender = await RecommenderLimitation(request.Recomendator.Value);
 
-            var _supplier = _mapper.Map<Supplier>(request.Supplier);
+
             if (!limitRecomender.Success)
             {
                 response.Success = false;
@@ -38,7 +38,9 @@ namespace NMMSystem.Aplication.Service.SupplierRecomendatorsServ
 
             }
 
-            await _context.Supplier.AddAsync(_supplier);
+            //await _context.Supplier.AddAsync(_supplier);
+            var _supplier = _mapper.Map<Supplier>(request.Supplier);
+
             if (request.Recomendator.HasValue)
             {
                 var rec = await _context.Supplier
@@ -49,10 +51,11 @@ namespace NMMSystem.Aplication.Service.SupplierRecomendatorsServ
                     var recom = new SupplierRecomendators()
                     {
                         RecommenderSupplierId = request.Recomendator.Value,
-                        RecommendedSupplier = _supplier
+                        RecommendedSupplier =_supplier,
                     };
-
-                    await _context.SupplierRecomendators.AddAsync(recom);
+                    _context.SupplierRecomendators.Add(recom);
+                  
+                  
                 }
 
             }
@@ -66,7 +69,7 @@ namespace NMMSystem.Aplication.Service.SupplierRecomendatorsServ
             var supplierLimit = await _context.SupplierRecomendators
                 .CountAsync(x => x.RecommenderSupplierId == supplierId);
 
-            if (supplierLimit > 3)
+            if (supplierLimit > 2)
             {
                 response.Success = false;
                 response.Message = "The number of recommendations has been exhausted";

@@ -62,26 +62,25 @@ namespace NMMSystem.Aplication.Service.SupplierServ
         {
             var response = new ServiceResponce<string>();
             var _supplier = _mapper.Map<Supplier>(request.Supplier);
-            await _context.Supplier.AddAsync(_supplier);
-
-           
-
-            // ეს შვება ყველაფერს, ეს გაეშვება თუარა საფლაიერის ბაზაში მეორეჯერ ვარდება მონაცემი
+            var supplier=await _context.Supplier.AddAsync(_supplier);
+            
             await _privateInfromationService.AddPrivateInformation(request.PrivateInformation, _supplier);
             await _addressInfoService.AddAddressInfo(request.AddressInfo, _supplier);
-            await _contactInformationService.AddContactInformation(request.ContactInformation, _supplier);          
-            
-            var supplierLimit= await _supplierRecomendatorsService.AddSupplierRecomendators(request);
+            await _contactInformationService.AddContactInformation(request.ContactInformation, _supplier);
+
+
+            var supplierLimit = await _supplierRecomendatorsService.AddSupplierRecomendators(request);
             if (!supplierLimit.Success)
             {
                 response.Success = false;
-                response.Message = supplierLimit.Message;
-                return response;
+                response.Message = supplierLimit.Message;              
+
             }
-
-
-
+            
             await _context.SaveChangesAsync();
+
+
+
             return response;
 
         }

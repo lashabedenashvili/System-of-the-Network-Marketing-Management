@@ -32,7 +32,13 @@ namespace NMMSystem.Data.Domein
                 .HasForeignKey(e => e.RecommendedSupplierId)
                 .OnDelete(DeleteBehavior.NoAction);
 
-        }
+            //modelBuilder.Entity<Supplier>()
+            //.Property(x => x.BirthDate)
+            //.HasColumnType("date");
 
+           
+           
+        }
+       
     }
 }

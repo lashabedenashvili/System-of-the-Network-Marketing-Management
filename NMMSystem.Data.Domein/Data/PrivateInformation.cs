@@ -22,10 +22,10 @@ namespace NMMSystem.Data.Domein
         [MaxLength(10)]
         public string SerialNumber { get; set; }
         [Required]
-        [Column(TypeName = "Date")]
+        [Column(TypeName = "date")]
         public DateTime DateIssue { get; set; }
         [Required]
-        [Column(TypeName = "Date")]
+        [Column(TypeName = "date")]
         public DateTime DateExpiry { get; set; }
         [Required]
         [MaxLength(50)]

@@ -16,9 +16,9 @@ namespace NMMSystem.Data.Domein.Data
 
         public decimal Bonus { get; set; }
         public Supplier Supplier { get; set; }
-        [Column(TypeName = "Date")]
+        [Column(TypeName = "date")]
         public DateTime DateTimeFrom { get; set; }
-        [Column(TypeName = "Date")]
+        [Column(TypeName = "date")]
         public DateTime DateTimeTo { get; set; }
     }
 }

@@ -14,7 +14,7 @@ namespace NMMSystem.Data.Domein
         [MaxLength(50)]
         public string SurName { get; set; }
         [Required]
-        [Column(TypeName = "Date")]
+        [Column(TypeName = "date")]
         public DateTime BirthDate { get; set; }
         [Required]
         public Gender Gender { get; set; }
