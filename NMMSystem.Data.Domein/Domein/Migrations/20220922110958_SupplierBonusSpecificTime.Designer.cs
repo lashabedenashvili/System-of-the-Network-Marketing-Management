@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using NMMSystem.Data.Domein;
 
@@ -11,9 +12,10 @@ using NMMSystem.Data.Domein;
 namespace NMMSystem.Data.Domein.Migrations
 {
     [DbContext(typeof(Context))]
-    partial class ContextModelSnapshot : ModelSnapshot
+    [Migration("20220922110958_SupplierBonusSpecificTime")]
+    partial class SupplierBonusSpecificTime
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -108,19 +110,13 @@ namespace NMMSystem.Data.Domein.Migrations
                         .HasColumnType("decimal(18,2)");
 
                     b.Property<DateTime>("DateTimeFrom")
-                        .HasColumnType("Date");
+                        .HasColumnType("datetime2");
 
                     b.Property<DateTime>("DateTimeTo")
-                        .HasColumnType("Date");
-
-                    b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("datetime2");
 
                     b.Property<int>("SupplierId")
                         .HasColumnType("int");
-
-                    b.Property<string>("Surname")
-                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 

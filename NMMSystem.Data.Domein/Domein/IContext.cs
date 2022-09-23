@@ -17,6 +17,7 @@ namespace NMMSystem.Data.Domein
         DbSet<SupplierRecomendators> SupplierRecomendators { get; set; }
        DbSet<SupplierSale> SupplierSale { get; set; }
         DbSet<Product> Product { get; set; }
+        DbSet<SupplierBonusSpecificTime> SupplierBonusSpecificTime { get; set; }
 
         Task<int> SaveChangesAsync(CancellationToken cancellationToken = default(CancellationToken));
 

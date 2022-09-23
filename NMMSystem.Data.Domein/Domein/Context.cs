@@ -17,6 +17,7 @@ namespace NMMSystem.Data.Domein
         public DbSet<SupplierRecomendators> SupplierRecomendators { get ; set ; }
         public DbSet<SupplierSale> SupplierSale { get ; set ; }
         public DbSet<Product> Product { get ; set ; }
+        public DbSet<SupplierBonusSpecificTime> SupplierBonusSpecificTime { get; set; }
 
         public Context(DbContextOptions<Context> options) : base(options)
         {

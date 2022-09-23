@@ -23,6 +23,7 @@ namespace NNMSystem.Infrastructure.AutoMapper
 
             CreateMap<AddProductDto, Product>();
             CreateMap<Product, AddProductDto>();
+            CreateMap<SupplierBonusSpecificTime, GetSypplierBonusInformationDto>();
 
 
         }

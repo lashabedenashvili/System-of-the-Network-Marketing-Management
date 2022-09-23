@@ -46,10 +46,17 @@ namespace NMMSystem.Api.Controllers
         {
             return Ok(await _supplierRecomendatorsService.HierarchyControl(RecomenderSupplierId,level));
         }
-        [HttpPost("SupplierBonusSystem")]
-        public async Task<ActionResult<ServiceResponce<decimal>>> SupplierBonusSystem(int? supplierId, DateTime? dateTimeFrom, DateTime? dateTimeTo)
+       
+      
+        [HttpPost("GetSupplierIdBySaleDate")]
+        public async Task<ActionResult<List<int>>> GetSupplierIdBySaleDate(DateTime dateTimeFrom, DateTime dateTimeTo)
         {
-            return Ok(await _productService.SupplierBonusSystem(supplierId, dateTimeFrom, dateTimeTo));
+            return Ok(await _productService.GetSupplierIdBySaleDate(dateTimeFrom, dateTimeTo));
+        }
+        [HttpPost("SypplierBonusSystemFiler")]
+        public async Task<ActionResult<ServiceResponce<List<GetSypplierBonusInformationDto>>>> SypplierBonusSystemFiler(SypplierBonusSystemFilterDto request)
+        {
+            return Ok(await _productService.SypplierBonusSystemFiler(request));
         }
     }
 }

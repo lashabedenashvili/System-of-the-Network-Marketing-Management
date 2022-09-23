@@ -23,6 +23,7 @@ namespace NMMSystem.Data.Domein
         public List<ContactInformation> ContactInfromations { get; set; } = new();
         public List<AddressInfo> AddressInfromations { get; set; } = new();
         public List<SupplierSale> SupplierSale { get; set; } = new();
+        public List<SupplierBonusSpecificTime> SupplierBonusSpecificTime { get; set; } = new();
 
 
         [ForeignKey("RecommenderSupplierId")]
