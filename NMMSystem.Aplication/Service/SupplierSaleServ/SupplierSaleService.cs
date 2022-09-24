@@ -186,14 +186,16 @@ namespace NMMSystem.Aplication.Service.SaleServ
         {
             var responce = new ServiceResponce<List<GetSypplierBonusInformationDto>>();        
 
-            var data = _contex.SupplierBonusSpecificTime.AsQueryable();
+            var data = _contex.SupplierBonusSpecificTime.Include(e => e.Supplier).AsQueryable();
+
+
             if (request.Name != null)
             {
-                data = data.Where(x => x.Name ==request.Name);
+                data = data.Where(x => x.Supplier.Name ==request.Name);
             }
             if (request.Surname != null)
             {
-                data = data.Where(x => x.Surname ==request.Surname);
+                data = data.Where(x => x.Supplier.SurName ==request.Surname);
             }
             if (request.BonusMin.HasValue)
             {

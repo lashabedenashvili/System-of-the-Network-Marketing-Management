@@ -23,7 +23,9 @@ namespace NNMSystem.Infrastructure.AutoMapper
 
             CreateMap<AddProductDto, Product>();
             CreateMap<Product, AddProductDto>();
-            CreateMap<SupplierBonusSpecificTime, GetSypplierBonusInformationDto>();
+            CreateMap<SupplierBonusSpecificTime, GetSypplierBonusInformationDto>()
+                .ForMember(e => e.Surname, x => x.MapFrom(s => s.Supplier.SurName))
+                .ForMember(e => e.Name, x => x.MapFrom(s => s.Supplier.Name));
 
 
         }

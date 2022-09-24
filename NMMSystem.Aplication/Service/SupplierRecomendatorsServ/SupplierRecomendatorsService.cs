@@ -24,10 +24,10 @@ namespace NMMSystem.Aplication.Service.SupplierRecomendatorsServ
             _context = context;
             _mapper = mapper;
         }
-        public async Task<ServiceResponce<string>> AddSupplierRecomendators(SupplierRegistrationDto request)
+        public async Task<ServiceResponce<string>> AddSupplierRecomendators(int? recomendator, Supplier supplier)
         {
             var response = new ServiceResponce<string>();
-            var limitRecomender = await RecommenderLimitation(request.Recomendator.Value);
+            var limitRecomender = await RecommenderLimitation(recomendator.Value);
 
 
             if (!limitRecomender.Success)
@@ -39,24 +39,21 @@ namespace NMMSystem.Aplication.Service.SupplierRecomendatorsServ
             }
 
             //await _context.Supplier.AddAsync(_supplier);
-            var _supplier = _mapper.Map<Supplier>(request.Supplier);
 
-            if (request.Recomendator.HasValue)
-            {
                 var rec = await _context.Supplier
-                                .FirstOrDefaultAsync(e => e.Id == request.Recomendator.Value);
+                                .FirstOrDefaultAsync(e => e.Id == recomendator.Value);
 
                 if (rec != null)
                 {
                     var recom = new SupplierRecomendators()
                     {
-                        RecommenderSupplierId = request.Recomendator.Value,
-                        RecommendedSupplier =_supplier,
+                        RecommenderSupplierId = recomendator.Value,
+                        RecommendedSupplier = supplier,
                     };
                     _context.SupplierRecomendators.Add(recom);
                   
                   
-                }
+                
 
             }
             return response;
