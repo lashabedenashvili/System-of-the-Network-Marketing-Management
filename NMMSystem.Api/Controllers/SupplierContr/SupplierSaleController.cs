@@ -49,7 +49,7 @@ namespace NMMSystem.Api.Controllers
        
       
         [HttpPost("GetSupplierIdBySaleDate")]
-        public async Task<ActionResult<List<int>>> GetSupplierIdBySaleDate(DateTime dateTimeFrom, DateTime dateTimeTo)
+        public async Task<ActionResult<ServiceResponce<string>>> GetSupplierIdBySaleDate(DateTime dateTimeFrom, DateTime dateTimeTo)
         {
             return Ok(await _productService.GetSupplierIdBySaleDate(dateTimeFrom, dateTimeTo));
         }

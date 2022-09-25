@@ -102,34 +102,71 @@ namespace NMMSystem.Aplication.Service.SaleServ
             return response;
 
         }
-
-        public async Task<List<int>> GetSupplierIdBySaleDate(DateTime dateTimeFrom, DateTime dateTimeTo)
+        private async Task<ServiceResponce<bool>> CheckBonusDate(DateTime dateTimeFrom, DateTime dateTimeTo, int supplierId)
         {
-            var responce = new ServiceResponce<List<int>>();
+            var responce = new ServiceResponce<bool>();
+            var bonusTime = await _contex.SupplierBonusSpecificTime.Where(x => x.DateTimeFrom == dateTimeFrom && x.DateTimeTo == dateTimeTo && x.SupplierId == supplierId)
+                .Select(x => x.TimePeriodBool).FirstOrDefaultAsync();
+
+            if (bonusTime)
+            {
+                responce.Success = false;
+                responce.Message = "In this date Supplier bonus is alredy count";
+                return responce;
+            }
+            responce.Success = true;
+            return responce;
+        }
+
+        public async Task<ServiceResponce<string>> GetSupplierIdBySaleDate(DateTime dateTimeFrom, DateTime dateTimeTo)
+        {
+            var responce = new ServiceResponce<string>();
             var suppliersId = _contex.SupplierSale
                 .Where(x => x.SaleTime >= dateTimeFrom && x.SaleTime <= dateTimeTo)
                 .Select(x => x.SupplierId)
                 .Distinct()
                 .ToListAsync();
 
+
+
+
             foreach (var item in suppliersId.Result)
             {
                 
-                var supplierBonus = await SupplierBonusSystem(item);
-                var supplier = await SupplierSurnameById(item);
-                var recordBonusDb = new SupplierBonusSpecificTime
+                var chekBonusTime = await CheckBonusDate(dateTimeFrom, dateTimeTo, item);
+                if (chekBonusTime.Success)
                 {
-                    Name= supplier.Data.Name,
-                    Surname=supplier.Data.SurName,
-                    SupplierId = item,
-                    Bonus = supplierBonus.Data,
-                    DateTimeFrom = dateTimeFrom,
-                    DateTimeTo = dateTimeTo,
-                };
-                _contex.SupplierBonusSpecificTime.Add(recordBonusDb);
-                await _contex.SaveChangesAsync();
+
+
+                    var supplierBonus = await SupplierBonusSystem(item);
+                    var supplier = await SupplierSurnameById(item);
+                    var recordBonusDb = new SupplierBonusSpecificTime
+                    {
+                        Name = supplier.Data.Name,
+                        Surname = supplier.Data.SurName,
+                        SupplierId = item,
+                        Bonus = supplierBonus.Data,
+                        DateTimeFrom = dateTimeFrom,
+                        DateTimeTo = dateTimeTo,
+
+                    };
+                    _contex.SupplierBonusSpecificTime.Add(recordBonusDb);
+                    await _contex.SaveChangesAsync();
+                }
+                else
+                {
+                    responce.Message = $"In this date{dateTimeFrom.Date}-{dateTimeTo.Date} supplier's (Id= {item}) bonus is alredy count";
+                    
+
+                }
+
             }
-            return responce.Data;
+
+
+
+
+
+            return responce;
         }
         private async Task<ServiceResponce<decimal>> SupplierBonusSystem(int supplierId)
         {
@@ -184,18 +221,18 @@ namespace NMMSystem.Aplication.Service.SaleServ
         }
         public async Task<ServiceResponce<List<GetSypplierBonusInformationDto>>> SypplierBonusSystemFiler(SypplierBonusSystemFilterDto request)
         {
-            var responce = new ServiceResponce<List<GetSypplierBonusInformationDto>>();        
+            var responce = new ServiceResponce<List<GetSypplierBonusInformationDto>>();
 
             var data = _contex.SupplierBonusSpecificTime.Include(e => e.Supplier).AsQueryable();
 
 
             if (request.Name != null)
             {
-                data = data.Where(x => x.Supplier.Name ==request.Name);
+                data = data.Where(x => x.Supplier.Name == request.Name);
             }
             if (request.Surname != null)
             {
-                data = data.Where(x => x.Supplier.SurName ==request.Surname);
+                data = data.Where(x => x.Supplier.SurName == request.Surname);
             }
             if (request.BonusMin.HasValue)
             {
@@ -227,7 +264,7 @@ namespace NMMSystem.Aplication.Service.SaleServ
 
             return responce;
 
-        }       
+        }
 
         private async Task<ServiceResponce<string>> GetSupplierNameById(int supplierId)
         {
@@ -236,13 +273,13 @@ namespace NMMSystem.Aplication.Service.SaleServ
                 .Where(x => x.Id == supplierId)
                 .Select(x => x.Name)
                 .FirstOrDefaultAsync();
-            
+
 
             return responce;
         }
-        private async Task<ServiceResponce<Supplier>>SupplierSurnameById(int supplierId)
+        private async Task<ServiceResponce<Supplier>> SupplierSurnameById(int supplierId)
         {
-            var responce=new ServiceResponce<Supplier>();
+            var responce = new ServiceResponce<Supplier>();
             responce.Data = await _contex.Supplier.Where(x => x.Id == supplierId).FirstOrDefaultAsync();
 
             return responce;
