@@ -20,7 +20,7 @@ namespace NMMSystem.Data.Domein.Data
         public DateTime DateTimeFrom { get; set; }
         [Column(TypeName = "date")]
         public DateTime DateTimeTo { get; set; }        
-        public bool TimePeriodBool { get; set; } = true;
+       
 
     }
 }

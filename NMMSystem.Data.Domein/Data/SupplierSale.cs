@@ -18,6 +18,7 @@ namespace NMMSystem.Data.Domein.Data
         public decimal ProductPrise { get; set; }
         public decimal UnitPrice { get; set; }
         public decimal TotalPrice { get; set; }
+        public bool Counted { get; set; } = false;
         public Supplier Supplier { get; set; }
         public Product Product { get; set; }
     }
